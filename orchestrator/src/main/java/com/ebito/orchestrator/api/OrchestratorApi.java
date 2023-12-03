@@ -1,23 +1,27 @@
 package com.ebito.orchestrator.api;
 
-import com.ebito.orchestrator.model.request.FormGenerationRequest;
-import com.ebito.orchestrator.model.response.FormGenerationResponse;
+import com.ebito.orchestrator.model.request.ReferenceGenerationRequest;
+import com.ebito.orchestrator.model.response.ReferenceGenerationResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Tag(name = "Orchestrator", description = "Orchestrator API")
 @RequestMapping("/api/v1")
 public interface OrchestratorApi {
 
-    ResponseEntity<Void> getAllClientReferences();
+
+    @GetMapping("/{clientId}/get-client-references")
+        //todo: сделать описание подробное
+    ResponseEntity<List<ReferenceGenerationResponse>> getAllClientReferences(@PathVariable("clientId") String clientId);
+
 
     @PostMapping("/{clientId}/generate-reference")
-    ResponseEntity<FormGenerationResponse> generateReference(@RequestParam("clientId") String clientId,
-                                                             @RequestBody FormGenerationRequest request);
+        //todo: сделать описание подробное
+    ResponseEntity<ReferenceGenerationResponse> generateReference(@PathVariable("clientId") String clientId,
+                                                                  @RequestBody ReferenceGenerationRequest request);
 
 
 }
