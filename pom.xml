@@ -22,6 +22,7 @@
         <module>reference</module>
         <module>printed-form</module>
         <module>cloud</module>
+        <module>ui</module>
     </modules>
 
     <properties>
