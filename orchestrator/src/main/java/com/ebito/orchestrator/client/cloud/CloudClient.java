@@ -1,6 +1,6 @@
 package com.ebito.orchestrator.client.cloud;
 
-import com.ebito.orchestrator.model.response.ReferenceGenerationResponse;
+import com.ebito.orchestrator.model.response.PrintedGuids;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,5 +15,5 @@ import java.util.List;
 public interface CloudClient {
 
     @GetMapping("/{clientId}/get-client-references")
-    List<ReferenceGenerationResponse> getAllClientReferences(@PathVariable("clientId") String clientId);
+    List<PrintedGuids> getAllClientReferences(@PathVariable("clientId") String clientId);
 }
