@@ -22,13 +22,13 @@ public class OrchestratorController implements OrchestratorApi {
 
     @Override
     public ResponseEntity<List<PrintedGuids>> getAllClientReferences(final String clientId) {
-        final var response = cloudClient.getAllClientReferences(clientId);
+        final var response = cloudClient.getClientReferences(clientId).getBody();
         return ResponseEntity.ok().body(response);
     }
 
     @Override
     public ResponseEntity<PrintedGuids> generateReference(final String clientId, final ReferenceGenerationRequest request) {
-        final var response = referenceClient.generateReference(clientId, request);
+        final var response = referenceClient.generateReference(clientId, request).getBody();
         return ResponseEntity.ok().body(response);
     }
 }
