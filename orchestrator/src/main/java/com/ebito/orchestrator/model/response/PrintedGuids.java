@@ -9,7 +9,7 @@ import lombok.Value;
  */
 @Value
 @Builder
-public class ReferenceGenerationResponse {
+public class PrintedGuids {
 
 
     @Schema(description = "Ссылка на документ",

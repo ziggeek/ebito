@@ -1,7 +1,7 @@
 package com.ebito.orchestrator.api;
 
 import com.ebito.orchestrator.model.request.ReferenceGenerationRequest;
-import com.ebito.orchestrator.model.response.ReferenceGenerationResponse;
+import com.ebito.orchestrator.model.response.PrintedGuids;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,13 +15,13 @@ public interface OrchestratorApi {
 
     @GetMapping("/{clientId}/get-client-references")
         //todo: сделать описание подробное
-    ResponseEntity<List<ReferenceGenerationResponse>> getAllClientReferences(@PathVariable("clientId") String clientId);
+    ResponseEntity<List<PrintedGuids>> getAllClientReferences(@PathVariable("clientId") String clientId);
 
 
     @PostMapping("/{clientId}/generate-reference")
         //todo: сделать описание подробное
-    ResponseEntity<ReferenceGenerationResponse> generateReference(@PathVariable("clientId") String clientId,
-                                                                  @RequestBody ReferenceGenerationRequest request);
+    ResponseEntity<PrintedGuids> generateReference(@PathVariable("clientId") String clientId,
+                                                   @RequestBody ReferenceGenerationRequest request);
 
 
 }
