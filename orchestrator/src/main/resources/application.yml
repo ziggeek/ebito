@@ -1,9 +1,18 @@
 server:
   port: 9999
 
+app:
+  feign:
+    client:
+      config:
+        cloud:
+          url: "http://localhost:9998"
+        reference:
+          url: "http://localhost:9998"
+
 spring:
   datasource:
-    driver-class-name: org.postgresql.Driver
+    driver-class-name:
     url: jdbc:postgresql://localhost:5999/postgres
     username: postgres
     password: postgres
