@@ -1,4 +1,4 @@
-package com.ebito.cloud.entity;
+package com.ebito.cloud.model.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,22 +16,25 @@ public class Document {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "user_id")
-    private Long userId;
-    private String path;
+    @Column(name = "client_id")
+    private String clientId;
+    private String name;
 
-
+    public Document(String clientId, String name) {
+        this.clientId = clientId;
+        this.name = name;
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Document document = (Document) o;
-        return Objects.equals(id, document.id) && Objects.equals(userId, document.userId) && Objects.equals(path, document.path);
+        return Objects.equals(id, document.id) && Objects.equals(clientId, document.clientId) && Objects.equals(name, document.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userId, path);
+        return Objects.hash(id, clientId, name);
     }
 }
