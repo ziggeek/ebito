@@ -32,8 +32,8 @@
         <testcotainers.version>1.17.6</testcotainers.version>
         <testcotainers.version>1.17.6</testcotainers.version>
 
-        <springdoc-openapi-ui.version>1.5.12</springdoc-openapi-ui.version>
-        <swagger-annotations.version>2.1.5</swagger-annotations.version>
+        <springdoc-openapi-ui.version>1.7.0</springdoc-openapi-ui.version>
+        <swagger-annotations.version>2.2.19</swagger-annotations.version>
     </properties>
 
 
