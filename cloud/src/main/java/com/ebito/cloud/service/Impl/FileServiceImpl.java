@@ -16,24 +16,30 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
+import java.util.UUID;
 
 import static java.nio.file.Files.createDirectories;
 
 @Service
 @Slf4j
 public class FileServiceImpl implements FileService {
-    private final String desktopPath = System.getProperty("user.dir") + File.separator + "documents";
+
+
+    private final String fileStorageLocation = System.getProperty("user.dir") + File.separator + "cloud"
+            + File.separator + "src" + File.separator + "main" + File.separator + "resources"
+            + File.separator + "documents";
+
 
     @Override
     public Document saveDoc(MultipartFile file, String clientId) {
         String fileName = generateFileName(file);
-        String path = desktopPath + File.separator + fileName;
+        String path = fileStorageLocation + File.separator + fileName;
 
         try {
             createDirectories(Paths.get(path));
             file.transferTo(new File(path));
 
-            return new Document(clientId, fileName);
+            return new Document(clientId, file.getOriginalFilename(), fileName);
         } catch (IOException e) {
             log.error("Ошибка при сохранении файла документа:{}", file.getName());
             return null;
@@ -41,21 +47,25 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public Resource getFileByLink(String link) {
-        if (link.isEmpty()) {
+    public Resource getFileByName(String name) {
+        if (name.isEmpty()) {
             throw new IllegalArgumentException("Ссылка на файл не может быть пустой");
         }
         try {
-
-            Path filePath = Paths.get(desktopPath).resolve(link);
+            Path filePath = Paths.get(fileStorageLocation)
+                    .toAbsolutePath()
+                    .normalize()
+                    .resolve(name);
             Resource resource = new UrlResource(filePath.toUri());
 
             if (!resource.exists() || !resource.isReadable()) {
+                log.error("Файл не найден или не доступен для чтения: {}", name);
                 throw new RuntimeException("Файл не найден или не доступен для чтения");
             }
-                return resource;
+            return resource;
 
         } catch (MalformedURLException ex) {
+            log.error("Ошибка при получении файла по ссылке: {}", name);
             throw new RuntimeException("Ошибка при получении файла по ссылке", ex);
         }
     }
@@ -64,7 +74,15 @@ public class FileServiceImpl implements FileService {
         LocalDateTime currentDate = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy_MM_dd_HH_mm_ss");
         String formattedDate = currentDate.format(formatter);
-        String type = Objects.requireNonNull(multiPart.getContentType()).replace("application/",".");
-        return multiPart.getOriginalFilename()  + "_" +formattedDate +type;
+
+        String originalFilename = Objects.requireNonNull(multiPart.getOriginalFilename()).replace(" ", "_");
+        int dotIndex = originalFilename.indexOf(".");
+        String name = (dotIndex != -1) ? originalFilename.substring(0, dotIndex) : originalFilename;
+
+        String random = UUID.randomUUID().toString().replace('-', '_');
+
+        String contentType = Objects.requireNonNull(multiPart.getContentType()).replace("application/", ".");
+
+        return  name + "_" + formattedDate + "_" + random + contentType;
     }
 }

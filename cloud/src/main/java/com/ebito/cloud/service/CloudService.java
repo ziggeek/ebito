@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface CloudService {
     PrintedGuids create(String clientId, MultipartFile file);
+
     List<PrintedGuids> getDocumentReferences(String clientId);
 }

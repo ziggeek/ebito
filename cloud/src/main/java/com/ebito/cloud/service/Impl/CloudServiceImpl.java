@@ -39,7 +39,7 @@ public class CloudServiceImpl implements CloudService {
         List<PrintedGuids> printedGuids = new ArrayList<>();
         documents.forEach(document -> printedGuids.add(PrintedGuids.builder()
                 .link("/api/v1/forms/" + document.getName())
-                .name(document.getName())
+                .name(document.getType())
                 .pdfFileName(document.getName())
                 .build()));
         return printedGuids;

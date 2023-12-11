@@ -22,8 +22,8 @@ public class CloudController implements CloudApi {
     private final FileService fileService;
 
     @Override
-    public ResponseEntity<Resource> getReferenceByLink(String link) {
-        Resource fileResource = fileService.getFileByLink(link);
+    public ResponseEntity<Resource> getReferenceByLink(String name) {
+        Resource fileResource = fileService.getFileByName(name);
         if (fileResource != null) {
             return ResponseEntity.ok()
                     .contentType(MediaType.APPLICATION_PDF)

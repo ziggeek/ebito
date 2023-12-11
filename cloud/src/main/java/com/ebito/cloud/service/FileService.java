@@ -11,13 +11,13 @@ public interface FileService {
      * @param doc документ
      * @return PrintedGuids
      */
-    Document saveDoc (MultipartFile doc,String clientId);
+    Document saveDoc(MultipartFile doc, String clientId);
 
     /**
      * Загружает документ из файловой системы по названию
      *
-     * @param link ссылка на документ в файловой системе
+     * @param name документ в файловой системе
      * @return resource
      */
-    Resource getFileByLink(String link);
+    Resource getFileByName(String name);
 }
