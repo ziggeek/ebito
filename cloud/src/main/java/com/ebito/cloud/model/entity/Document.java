@@ -18,10 +18,12 @@ public class Document {
     private Long id;
     @Column(name = "client_id")
     private String clientId;
+    private String type;
     private String name;
 
-    public Document(String clientId, String name) {
+    public Document(String clientId, String type, String name) {
         this.clientId = clientId;
+        this.type = type;
         this.name = name;
     }
 
