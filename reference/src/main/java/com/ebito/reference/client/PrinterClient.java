@@ -2,7 +2,7 @@ package com.ebito.reference.client;
 
 import com.ebito.reference.model.request.PrinterRequest;
 import com.ebito.reference.model.response.PrintedGuids;
-import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
