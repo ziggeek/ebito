@@ -30,6 +30,7 @@ spring:
   liquibase:
     change-log: db/changelog/changelog-master.yaml
 
+
 logging:
   level:
     dev.zig.controller.StudentController: DEBUG

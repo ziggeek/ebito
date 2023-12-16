@@ -1,10 +1,11 @@
 --liquibase formatted sql
 
---changeset pro100:1
-create table if not exists documents
+--changeset Pro100:1
+--2023-12-15--create-table-document
+create table if not exists t_documents
 (
     id        bigserial primary key not null,
     client_id varchar(255)          not null,
-    name      varchar(255)          not null,
-    type      varchar(255)          not null
+    name_file varchar(255)          not null,
+    type_file varchar(255)          not null
 );

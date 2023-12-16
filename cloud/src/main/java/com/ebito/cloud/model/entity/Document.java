@@ -1,8 +1,6 @@
 package com.ebito.cloud.model.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -11,20 +9,26 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "documents")
+@AllArgsConstructor
+@Table(name = "t_documents")
 public class Document {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "client_id")
     private String clientId;
-    private String type;
-    private String name;
+    @Column(name = "type_file")
+    private String fileType;
+    @Column(name = "name_file")
+    private String fileName;
 
-    public Document(String clientId, String type, String name) {
+    //Конструктор для создания объекта класса Document без id.
+
+
+    public Document(String clientId, String type, String pdfFileName) {
         this.clientId = clientId;
-        this.type = type;
-        this.name = name;
+        this.fileType = type;
+        this.fileName = pdfFileName;
     }
 
     @Override
@@ -32,11 +36,11 @@ public class Document {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Document document = (Document) o;
-        return Objects.equals(id, document.id) && Objects.equals(clientId, document.clientId) && Objects.equals(name, document.name);
+        return Objects.equals(id, document.id) && Objects.equals(clientId, document.clientId) && Objects.equals(fileType, document.fileType) && Objects.equals(fileName, document.fileName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, clientId, name);
+        return Objects.hash(id, clientId, fileType, fileName);
     }
 }

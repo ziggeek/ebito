@@ -1,0 +1,95 @@
+openapi: "3.0.3"
+info:
+  title: "ebito API"
+  description: "ebito API"
+  version: "1.0.0"
+servers:
+  - url: "https://ebito"
+tags:
+  - name: "Cloud"
+    description: "Cloud API сервис для загрузки и получения документов. "
+paths:
+  /get-reference/{name}:
+    get:
+      summary: "Получить документ в UI"
+      description: ""
+      operationId: ""
+      parameters:
+        - name: "name"
+          in: "path"
+          required: true
+          description: "Имя документа"
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Resource"
+  /{clientId}/get-client-references:
+    get:
+      summary: "Получить всю информацию ранних запросах"
+      description: ""
+      operationId: ""
+      parameters:
+        - name: "clientId"
+          in: "path"
+          required: true
+          description: "id клиента"
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/PrintedGuids"
+  /{clientId}/save-client-reference:
+    post:
+      summary: "Получить информацию о запросах"
+      description: ""
+      operationId: ""
+      parameters:
+        - name: "clientId"
+          in: "path"
+          required: true
+          description: "id клиента"
+          schema:
+            type: "string"
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: "object"
+              required:
+                - "file"
+              properties:
+                file:
+                  type: "string"
+                  format: "binary"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PrintedGuids"
+components:
+  schemas:
+    Resource:
+      type: "object"
+      properties: { }
+    PrintedGuids:
+      type: "object"
+      properties:
+        link:
+          type: "string"
+        name:
+          type: "string"
+        pdfFileName:
+          type: "string"

@@ -60,13 +60,13 @@ public class FileServiceImpl implements FileService {
 
             if (!resource.exists() || !resource.isReadable()) {
                 log.error("Файл не найден или не доступен для чтения: {}", name);
-                throw new RuntimeException("Файл не найден или не доступен для чтения");
+                return null;
             }
             return resource;
 
         } catch (MalformedURLException ex) {
             log.error("Ошибка при получении файла по ссылке: {}", name);
-            throw new RuntimeException("Ошибка при получении файла по ссылке", ex);
+            return null;
         }
     }
 
