@@ -1,5 +1,6 @@
 package com.ebito.cloud.service.Impl;
 
+import com.ebito.cloud.mapper.DocumentMapper;
 import com.ebito.cloud.model.entity.Document;
 import com.ebito.cloud.model.response.PrintedGuids;
 import com.ebito.cloud.reposytory.DocumentRepository;
@@ -19,17 +20,13 @@ import java.util.List;
 public class CloudServiceImpl implements CloudService {
     private final DocumentRepository documentRepo;
     private final FileService fileService;
+    private final DocumentMapper  documentMapper;
 
     @Override
     public PrintedGuids create(String clientId, MultipartFile file) {
         Document document = fileService.saveDoc(file, clientId);
         documentRepo.save(document);
-        System.out.println(file.getOriginalFilename());
-        return PrintedGuids.builder()
-                .link("/api/v1/forms/" + document.getName())
-                .name(file.getOriginalFilename())
-                .pdfFileName(document.getName())
-                .build();
+        return documentMapper.toDto(document);
     }
 
 
@@ -37,11 +34,7 @@ public class CloudServiceImpl implements CloudService {
     public List<PrintedGuids> getDocumentReferences(String clientId) {
         List<Document> documents = documentRepo.findAllByClientId(clientId);
         List<PrintedGuids> printedGuids = new ArrayList<>();
-        documents.forEach(document -> printedGuids.add(PrintedGuids.builder()
-                .link("/api/v1/forms/" + document.getName())
-                .name(document.getType())
-                .pdfFileName(document.getName())
-                .build()));
+        documents.forEach(document -> printedGuids.add(documentMapper.toDto(document)));
         return printedGuids;
     }
 

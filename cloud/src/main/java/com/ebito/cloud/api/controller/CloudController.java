@@ -22,7 +22,7 @@ public class CloudController implements CloudApi {
     private final FileService fileService;
 
     @Override
-    public ResponseEntity<Resource> getReferenceByLink(String name) {
+    public ResponseEntity<Resource> getReferenceByName(String name) {
         Resource fileResource = fileService.getFileByName(name);
         if (fileResource != null) {
             return ResponseEntity.ok()
