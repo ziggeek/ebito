@@ -25,7 +25,7 @@ public class Account {
     private Client client;
 
     @Column(name = "account_number")
-    private int account_number;
+    private int accountNumber;
 
     @Column(name = "account_currency")
     @Enumerated(EnumType.STRING)
