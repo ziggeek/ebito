@@ -29,4 +29,8 @@ public class Operation {
 
     @Column(name = "sum")
     private long sum;
+
+    @ManyToOne
+    @JoinColumn(name = "client_id", referencedColumnName = "id")
+    private Client client;
 }
