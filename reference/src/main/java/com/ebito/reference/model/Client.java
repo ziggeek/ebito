@@ -17,6 +17,7 @@ import java.util.List;
 public class Client {
 
     @Id
+    @Column(name = "client_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 

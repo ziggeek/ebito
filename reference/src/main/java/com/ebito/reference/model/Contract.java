@@ -17,6 +17,7 @@ import java.time.LocalDate;
 public class Contract {
 
     @Id
+    @Column(name = "contract_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
@@ -25,6 +26,6 @@ public class Contract {
     private LocalDate contractDate;
 
     @OneToOne
-    @JoinColumn(name = "client_id", referencedColumnName = "id")
+    @JoinColumn(name = "client_id", referencedColumnName = "client_id")
     private Client client;
 }
