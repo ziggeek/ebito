@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 public class Operation {
 
     @Id
+    @Column(name = "operation_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "timestamp")
@@ -31,6 +32,6 @@ public class Operation {
     private long sum;
 
     @ManyToOne
-    @JoinColumn(name = "client_id", referencedColumnName = "id")
+    @JoinColumn(name = "client_id", referencedColumnName = "client_id")
     private Client client;
 }
