@@ -1,10 +1,8 @@
 openapi: "3.0.3"
 info:
-  title: "ebito API"
-  description: "ebito API"
+  title: "Cloud API"
+  description: "Cloud API сервис для загрузки и получения документов. "
   version: "1.0.0"
-servers:
-  - url: "https://ebito"
 tags:
   - name: "Cloud"
     description: "Cloud API сервис для загрузки и получения документов. "
@@ -13,7 +11,7 @@ paths:
     get:
       summary: "Получить документ в UI"
       description: ""
-      operationId: ""
+      operationId: "1"
       parameters:
         - name: "name"
           in: "path"
@@ -32,7 +30,7 @@ paths:
     get:
       summary: "Получить всю информацию ранних запросах"
       description: ""
-      operationId: ""
+      operationId: "2"
       parameters:
         - name: "clientId"
           in: "path"
@@ -53,7 +51,7 @@ paths:
     post:
       summary: "Получить информацию о запросах"
       description: ""
-      operationId: ""
+      operationId: "3"
       parameters:
         - name: "clientId"
           in: "path"

@@ -30,6 +30,10 @@ spring:
   liquibase:
     change-log: db/changelog/changelog-master.yaml
 
+file:
+  storage:
+    location: cloud.src.main.resources.documents
+
 
 logging:
   level:
