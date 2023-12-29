@@ -1,6 +1,9 @@
 package com.ebito.cloud.service.Impl;
 
-import com.ebito.cloud.model.entity.Document;
+import com.ebito.cloud.exception.FileProcessingException;
+import com.ebito.cloud.exception.InvalidUrlException;
+import com.ebito.cloud.exception.ResourceAccessException;
+import com.ebito.cloud.model.entity.DocumentEntity;
 import com.ebito.cloud.service.FileService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,31 +34,34 @@ public class FileServiceImpl implements FileService {
 
 
     @Override
-    public Document saveDoc(MultipartFile file, String clientId) {
+    public DocumentEntity saveDoc(MultipartFile file, String clientId) {
+        Assert.hasText(clientId, "Client ID cannot be empty");
+        log.info("Saving a document file: {}", file.getOriginalFilename());
         String fileName = generateFileName(file);
         try {
             createDirectories(getFilePath());
             file.transferTo(new File(getFilePath() + File.separator + fileName));
 
-            return new Document(clientId, file.getOriginalFilename(), fileName);
+            return new DocumentEntity(clientId, file.getOriginalFilename(), fileName);
         } catch (IOException e) {
-            log.error("Ошибка при сохранении файла документа:{}", file.getName());
-            return null;
+            throw new FileProcessingException("Error saving document file:" + file.getName());
+
         }
     }
 
     @Override
     public Resource getFileByName(String name) {
-        Assert.hasText(name, "Имя файла документа не может быть пустой");
+        log.info("Getting a document file by name: {}", name);
+        Assert.hasText(name, "The document file name cannot be empty");
         try {
             Path filePath = getFilePath().resolve(name);
             Resource resource = new UrlResource(filePath.toUri());
-            Assert.isTrue(resource.exists()||resource.isReadable(),
-                    "Файл не найден или не доступен");
+            if (!resource.exists() || !resource.isReadable()) {
+                throw new ResourceAccessException(name+" not found or not available ");
+            }
             return resource;
         } catch (MalformedURLException ex) {
-            log.error("Ошибка при получении файла по ссылке: {}", name);
-            return null;
+            throw new InvalidUrlException("Error when retrieving file from link: " + name);
         }
     }
 
@@ -71,16 +77,16 @@ public class FileServiceImpl implements FileService {
         String formattedDate = LocalDateTime.now().
                 format(DateTimeFormatter.ofPattern("yyyy_MM_dd_HH_mm_ss"));
 
-        //Работа с именем файла документа достаёться из multipart
+        //Работа с именем файла документа. достаёться из multipart
         String originalFilename = Objects.requireNonNull(multiPart.getOriginalFilename()).replace(" ", "_");
-        //Удаление расширения файла документа из multipart.
-       int dotIndex = originalFilename.indexOf(".");
+        //Удаление расширения файла документа из multipart.превращает имя.pdf в имя
+        int dotIndex = originalFilename.indexOf(".");
         String name = (dotIndex != -1) ? originalFilename.substring(0, dotIndex) : originalFilename;
         // Добавление рандомных символов и цифр для имени файла документа.
         String random = UUID.randomUUID().toString().replace('-', '_');
         // Получение расширения файла документа из multipart.
         String contentType = Objects.requireNonNull(multiPart.getContentType()).replace("application/", ".");
-
+        log.info("Name create {}", name + "_" + formattedDate + "_" + random + contentType);
         return name + "_" + formattedDate + "_" + random + contentType;
     }
 
@@ -90,7 +96,7 @@ public class FileServiceImpl implements FileService {
      * @return путь к файлам документов Path.
      */
     private Path getFilePath() {
-        return Paths.get(fileStorageLocation.replace(".",File.separator))
+        return Paths.get(fileStorageLocation.replace(".", File.separator))
                 .normalize()
                 .toAbsolutePath();
     }
