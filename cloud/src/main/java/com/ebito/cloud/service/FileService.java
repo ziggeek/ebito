@@ -1,6 +1,6 @@
 package com.ebito.cloud.service;
 
-import com.ebito.cloud.model.entity.Document;
+import com.ebito.cloud.model.entity.DocumentEntity;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,7 +11,7 @@ public interface FileService {
      * @param doc документ
      * @return PrintedGuids
      */
-    Document saveDoc(MultipartFile doc, String clientId);
+    DocumentEntity saveDoc(MultipartFile doc, String clientId);
 
     /**
      * Загружает документ из файловой системы по названию
