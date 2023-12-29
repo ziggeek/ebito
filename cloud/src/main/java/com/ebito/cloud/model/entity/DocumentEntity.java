@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Entity
 @AllArgsConstructor
 @Table(name = "t_documents")
-public class Document {
+public class DocumentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
@@ -25,7 +25,7 @@ public class Document {
 
     //Конструктор для создания объекта класса Document без id.
 
-    public Document(String clientId, String type, String pdfFileName) {
+    public DocumentEntity(String clientId, String type, String pdfFileName) {
         this.clientId = clientId;
         this.fileType = type;
         this.fileName = pdfFileName;

@@ -1,6 +1,6 @@
 package com.ebito.cloud.mapper;
 
-import com.ebito.cloud.model.entity.Document;
+import com.ebito.cloud.model.entity.DocumentEntity;
 import com.ebito.cloud.model.response.PrintedGuids;
 import org.mapstruct.*;
 
@@ -13,7 +13,7 @@ public interface DocumentMapper {
     @Mapping(target = "link", source = "fileName", qualifiedByName = "documentMapper")
     @Mapping(target = "name", source ="fileType")
     @Mapping(target = "pdfFileName", source = "fileName")
-    PrintedGuids toDto(Document document);
+    PrintedGuids toDto(DocumentEntity document);
 
 
     @Named("documentMapper")
