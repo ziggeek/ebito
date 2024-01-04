@@ -32,10 +32,7 @@ public class PrinterService {
         PrintedGuids printedGuids;
         switch (body.getDocumentType()) {
             case PDF:
-                printedGuids = printerClient.generatePdf(body.getPrinterRequest()).getBody();
-                break;
-            case DOCX:
-                printedGuids = printerClient.generateDocx(body.getPrinterRequest()).getBody();
+                printedGuids = printerClient.generatePdf(body.getPrinterRequest().getFormGenerationData()).getBody();
                 break;
             default:
                 throw new IllegalStateException("*** Формат документа не найден " + body.getDocumentType());
