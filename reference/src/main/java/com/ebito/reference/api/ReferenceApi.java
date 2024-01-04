@@ -15,6 +15,6 @@ public interface ReferenceApi {
 
     @PostMapping("/{clientId}/generate-reference")
         //todo: сделать описание подробное
-    ResponseEntity<PrintedGuids> generateReference(@PathVariable("clientId") String clientId,
+    ResponseEntity<PrintedGuids> generateReference(@PathVariable("clientId") long clientId,
                                                    @RequestBody ReferenceGenerationRequest request);
 }

@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(
-        value = "printed_form",
+        value = "printed-form",
         url = "${feign.client.config.print.url}",
         path = "/api/v1"
 )
 public interface PrinterClient {
 
-    @PostMapping(value = "/pdf")
+    @PostMapping(value = "/forms/generate-print-form")
     ResponseEntity<PrintedGuids> generatePdf(@RequestBody PrinterRequest request);
 
     @PostMapping(value = "/docx")

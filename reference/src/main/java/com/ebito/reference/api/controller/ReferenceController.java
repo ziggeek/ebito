@@ -17,8 +17,8 @@ public class ReferenceController implements ReferenceApi {
     private final CommonService commonService;
 
     @Override
-    public ResponseEntity<PrintedGuids> generateReference(final String clientId, final ReferenceGenerationRequest request) {
+    public ResponseEntity<PrintedGuids> generateReference(final long clientId, final ReferenceGenerationRequest request) {
         final var response = commonService.selectReference(clientId, request);
-        return null;
+        return ResponseEntity.ok(response);
     }
 }

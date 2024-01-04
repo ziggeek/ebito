@@ -8,6 +8,6 @@ import lombok.*;
 @Builder
 public class PrintData {
 
-    DocumentType documentType;
+    DocumentType documentType; // пока по дефолту пдф
     PrinterRequest printerRequest;
 }
