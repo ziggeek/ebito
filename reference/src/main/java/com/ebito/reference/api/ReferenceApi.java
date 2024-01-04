@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/api/v1")
 public interface ReferenceApi {
     @Operation(summary = "Сгенерировать форму определенного типа для клиента")
-    @PostMapping("/{clientId}/generate-reference")
+    @PostMapping("/clients/{clientId}/generate-reference")
     ResponseEntity<PrintedGuids> generateReference(@PathVariable("clientId") long clientId,
                                                    @RequestBody ReferenceGenerationRequest request);
 }
