@@ -21,7 +21,7 @@ public class Operation {
     @Id
     @Column(name = "operation_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
     @Column(name = "timestamp")
     private LocalDateTime timestamp;
 
