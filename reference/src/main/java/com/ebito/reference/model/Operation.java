@@ -1,6 +1,7 @@
 package com.ebito.reference.model;
 
 import com.ebito.reference.model.enumeration.PaymentMethod;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,5 +34,6 @@ public class Operation {
 
     @ManyToOne
     @JoinColumn(name = "client_id", referencedColumnName = "client_id")
+    @JsonIgnore
     private Client client;
 }
