@@ -23,6 +23,7 @@ import org.springframework.util.Assert;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -70,14 +71,15 @@ public class CommonService {
     }
 
     private PrintData extractDataForReference001(Client client) {
-        var operations = operationRepository.findAllByClientId(client.getId());
+        List<Operation> operations = operationRepository.findAllByClientIdOrderByTimestamp(client.getId());
+
         long totalAmount = operations.stream()
                 .mapToLong(Operation::getSum)
                 .sum();
 
         Reference001PrintData printData = Reference001PrintData.builder()
                 .form("REFERENCE_001_BRANCH")
-                .dateFrom(LocalDate.now())
+                .dateFrom(LocalDate.of(2000, 1, 1))
                 .dateTo(LocalDate.now())
                 .lastName(client.getLastName())
                 .firstName(client.getFirstName())
