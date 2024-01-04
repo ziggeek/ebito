@@ -8,7 +8,7 @@ public class ModelMapper {
         return TransactionDTO.builder()
                 .id(operation.getId())
                 .sum(operation.getSum())
-                .paymentMethod(operation.getPaymentMethod())
+                .paymentMethod(operation.getPaymentMethod().getPaymentMethodName())
                 .date(operation.getTimestamp().toLocalDate())
                 .time(operation.getTimestamp().toLocalTime())
                 .build();

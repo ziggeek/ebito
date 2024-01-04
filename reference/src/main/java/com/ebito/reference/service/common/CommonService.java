@@ -3,16 +3,13 @@ package com.ebito.reference.service.common;
 import com.ebito.reference.model.Client;
 import com.ebito.reference.model.Operation;
 import com.ebito.reference.model.enumeration.Channel;
-import com.ebito.reference.model.request.FormGenerationData;
-import com.ebito.reference.model.request.PrinterRequest;
 import com.ebito.reference.model.enumeration.DocumentType;
-import com.ebito.reference.model.PrintData;
-import com.ebito.reference.model.request.Reference001FormGenerationData;
+import com.ebito.reference.model.PrintRequest;
+import com.ebito.reference.model.request.PrintData;
+import com.ebito.reference.model.request.Reference001PrintData;
 import com.ebito.reference.model.request.ReferenceGenerationRequest;
 import com.ebito.reference.model.response.PrintedGuids;
-import com.ebito.reference.repository.AccountRepository;
 import com.ebito.reference.repository.ClientRepository;
-import com.ebito.reference.repository.ContractRepository;
 import com.ebito.reference.repository.OperationRepository;
 import com.ebito.reference.service.Reference000Service;
 import com.ebito.reference.util.Dictionary;
@@ -35,9 +32,7 @@ import java.util.stream.Collectors;
 public class CommonService {
 
     private final ApplicationContext context;
-    private final AccountRepository accountRepository;
     private final ClientRepository clientRepository;
-    private final ContractRepository contractRepository;
     private final OperationRepository operationRepository;
     private static final String PATH = "com.ebito.reference.service.reference%s.Reference%sService";
 
@@ -46,46 +41,41 @@ public class CommonService {
         try {
             dogClass = Class.forName(String.format(PATH, request.getReferenceCode(), request.getReferenceCode()));
         } catch (Exception e) {
-            throw new RuntimeException("Тип справки некорректен");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Некорректный тип справки");
         }
-        PrintData printData = this.buildPrintRequest(clientId, request.getReferenceCode());
-        PrintedGuids printedGuids = ((Reference000Service) context.getBean(dogClass)).execute(printData);
+        PrintRequest printRequest = this.buildPrintRequest(clientId, request.getReferenceCode());
+        PrintedGuids printedGuids = ((Reference000Service) context.getBean(dogClass)).execute(printRequest);
         return printedGuids;
     }
 
-    private PrintData buildPrintRequest(final long clientId, final String referenceCode) {
+    private PrintRequest buildPrintRequest(final long clientId, final String referenceCode) {
         Assert.notNull(referenceCode, "'referenceCode' не должен быть null");
 
-        //получить данные из источника (потом разные источники доавится могут)
+        Client client = clientRepository.findById(clientId).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Client with id=%d was not found", clientId))
+        );
+
         if (Objects.equals("001", referenceCode)) {
+            var printData = extractDataForReference001(client);
+            printData.setTemplateName(Dictionary.getReferenceName(referenceCode));
 
-            var templateName = Dictionary.getReferenceName(referenceCode);
-            Client client = clientRepository.findById(clientId).orElseThrow(
-                    () -> new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Client with id=%d was not found", clientId))
-            );
-
-            var printerRequest = PrinterRequest.builder()
-                    .templateName(templateName)
-                    .formGenerationData(extractClientDataFor001(client))
-                    .build();
-
-            var printData = PrintData.builder()
+            return PrintRequest.builder()
                     .documentType(DocumentType.PDF)
-                    .printerRequest(printerRequest)
+                    .printData(printData)
                     .build();
-
-            return printData;
 
         } else {
             throw new RuntimeException("Неизвестный источник: " + referenceCode);
         }
     }
 
-    private FormGenerationData extractClientDataFor001(Client client) {
+    private PrintData extractDataForReference001(Client client) {
         var operations = operationRepository.findAllByClientId(client.getId());
-        long totalAmount = operations.stream().mapToLong(Operation::getSum).sum();
+        long totalAmount = operations.stream()
+                .mapToLong(Operation::getSum)
+                .sum();
 
-        return Reference001FormGenerationData.builder()
+        Reference001PrintData printData = Reference001PrintData.builder()
                 .form("REFERENCE_001_BRANCH")
                 .dateFrom(LocalDate.now())
                 .dateTo(LocalDate.now())
@@ -100,7 +90,11 @@ public class CommonService {
                 .referenceCode("001")
                 .channel(Channel.BRANCH)
                 .totalAmount(totalAmount)
-                .transactions(operations.stream().map(ModelMapper::convertToTransactionDTO).collect(Collectors.toList()))
+                .transactions(operations.stream()
+                        .map(ModelMapper::convertToTransactionDTO)
+                        .collect(Collectors.toList()))
                 .build();
+
+        return printData;
     }
 }
