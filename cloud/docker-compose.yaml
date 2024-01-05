@@ -1,0 +1,43 @@
+version: '3'
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  cache:
+    driver: local
+  db-data:
+    driver: local
+  minio-data:
+    driver: local
+
+services:
+  app:
+    build:
+      context: .
+    container_name: cloud
+    networks:
+      - app-network
+    depends_on:
+      - minio
+    env_file:
+      - .env
+    ports:
+      - '8080:8080'
+
+
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    networks:
+     - app-network
+    environment:
+    - MINIO_ROOT_USER=${MINIO_ASSES_KEY}
+    - MINIO_ROOT_PASSWORD=${MINIO_SECRET_KEY}
+    command: server ~/minio --console-address :9090
+    ports:
+    - '9090:9090'
+    - '9000:9000'
+    volumes:
+    - minio-data:/minio
