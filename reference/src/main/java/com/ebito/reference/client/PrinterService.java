@@ -1,6 +1,6 @@
 package com.ebito.reference.client;
 
-import com.ebito.reference.model.PrintData;
+import com.ebito.reference.model.PrintRequest;
 import com.ebito.reference.model.response.PrintedGuids;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
@@ -14,10 +14,10 @@ public class PrinterService {
 
     private final PrinterClient printerClient;
 
-    public PrintedGuids getPrint(PrintData printData) {
+    public PrintedGuids getPrint(PrintRequest printRequest) {
 
         try {
-            PrintedGuids printed = this.sendRequest(printData);
+            PrintedGuids printed = this.sendRequest(printRequest);
             log.info("*** Пришел ответ от сервиса печатных форм: {}", printed);
             return printed;
         } catch (FeignException ex) {
@@ -26,16 +26,13 @@ public class PrinterService {
         }
     }
 
-    private PrintedGuids sendRequest(PrintData body) {
+    private PrintedGuids sendRequest(PrintRequest body) {
 
         log.info("*** Отправляем запрос в сервис печатных форм: {}", body);
         PrintedGuids printedGuids;
         switch (body.getDocumentType()) {
             case PDF:
-                printedGuids = printerClient.generatePdf(body.getPrinterRequest()).getBody();
-                break;
-            case DOCX:
-                printedGuids = printerClient.generateDocx(body.getPrinterRequest()).getBody();
+                printedGuids = printerClient.generatePdf(body.getPrintData()).getBody();
                 break;
             default:
                 throw new IllegalStateException("*** Формат документа не найден " + body.getDocumentType());
