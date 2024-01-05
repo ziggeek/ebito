@@ -8,6 +8,4 @@ import java.util.List;
 
 public interface OperationRepository extends JpaRepository<Operation, Long> {
     List<Operation> findAllByClientIdAndDateBetweenOrderByDateAscTimeAsc(long clientId, LocalDate dateFrom, LocalDate dateTo);
-
-    List<Operation> findAllByClientIdOrderByDate(long clientId);
 }
