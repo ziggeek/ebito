@@ -29,11 +29,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FormUtils {
 
-    //todo при рефакторинге - объединить
     private static final SimpleDateFormat formatter = new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss");
-    private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd_MM_yyyy_HH_mm_ss");
-    private static final List<String> charElements = List.of(" ", "\"", "\\");
-
 
     /**
      * Converts docx file to pdf one

@@ -1,6 +1,6 @@
-package com.ebito.printed_form.model;
+package com.ebito.printed_form.api.controller.request;
 
-import com.ebito.printed_form.api.controller.request.Reference001FormGenerationRequest;
+import com.ebito.printed_form.api.controller.request.reference.Reference001FormGenerationRequest;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 @JsonTypeInfo(

@@ -1,7 +1,7 @@
 package com.ebito.printed_form.api;
 
 
-import com.ebito.printed_form.model.FormGenerationRequest;
+import com.ebito.printed_form.api.controller.request.FormGenerationRequest;
 import com.ebito.printed_form.api.controller.response.FormGenerationResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

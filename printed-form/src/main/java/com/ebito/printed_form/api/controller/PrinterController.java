@@ -1,7 +1,7 @@
 package com.ebito.printed_form.api.controller;
 
 import com.ebito.printed_form.api.PrinterApi;
-import com.ebito.printed_form.model.FormGenerationRequest;
+import com.ebito.printed_form.api.controller.request.FormGenerationRequest;
 import com.ebito.printed_form.api.controller.response.FormGenerationResponse;
 import com.ebito.printed_form.service.FormGeneratorServiceImpl;
 import lombok.RequiredArgsConstructor;
