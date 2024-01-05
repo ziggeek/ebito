@@ -25,11 +25,9 @@ public class ReferenceGenerationRequest {
 
     @Schema(description = "Дата C",
             example = "2021-03-15")
-    @NotNull(message = "must not be null")
     LocalDate dateFrom;
 
     @Schema(description = "Дата ПО",
             example = "2023-03-15")
-    @NotNull(message = "must not be null")
     LocalDate dateTo;
 }
