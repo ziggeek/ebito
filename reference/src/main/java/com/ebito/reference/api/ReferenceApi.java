@@ -21,7 +21,7 @@ public interface ReferenceApi {
     @Operation(summary = "Сгенерировать форму определенного типа для клиента")
     @ApiResponses(value = {
             @ApiResponse(
-                    responseCode = "200",
+                    responseCode = "201",
                     description = "Форма сгенерирована",
                     content = @Content(
                             mediaType = "application/json",

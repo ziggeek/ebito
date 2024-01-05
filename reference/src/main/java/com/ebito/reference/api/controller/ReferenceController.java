@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.URI;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -19,6 +21,6 @@ public class ReferenceController implements ReferenceApi {
     @Override
     public ResponseEntity<PrintedGuids> generateReference(final long clientId, final ReferenceGenerationRequest request) {
         final var response = commonService.selectReference(clientId, request);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.created(URI.create(response.getLink())).body(response);
     }
 }
