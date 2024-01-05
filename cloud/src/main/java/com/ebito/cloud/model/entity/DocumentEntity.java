@@ -13,7 +13,6 @@ import javax.persistence.*;
 public class DocumentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @EqualsAndHashCode.Include
     @Column(name = "Cloud_id")
     private Long id;
     @Column(name = "client_id")

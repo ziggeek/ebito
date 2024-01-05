@@ -27,7 +27,6 @@ public class CloudController implements CloudApi {
             return ResponseEntity.ok()
                     .contentType(MediaType.APPLICATION_PDF)
                     .body(fileResource);
-
     }
 
     @Override
