@@ -57,8 +57,12 @@ public class CommonService {
         );
 
         if (Objects.equals("001", referenceCode)) {
-            var printData = extractDataForReference001(client);
+            PrintData printData = extractDataForReference001(client);
+
             printData.setTemplateName(Dictionary.getReferenceName(referenceCode));
+            printData.setForm("REFERENCE_001_BRANCH");
+            printData.setReferenceCode(referenceCode);
+            printData.setChannel(Channel.BRANCH);
 
             return PrintRequest.builder()
                     .documentType(DocumentType.PDF)
@@ -70,15 +74,14 @@ public class CommonService {
         }
     }
 
-    private PrintData extractDataForReference001(Client client) {
+    private Reference001PrintData extractDataForReference001(Client client) {
         List<Operation> operations = operationRepository.findAllByClientIdOrderByTimestamp(client.getId());
 
         long totalAmount = operations.stream()
                 .mapToLong(Operation::getSum)
                 .sum();
 
-        Reference001PrintData printData = Reference001PrintData.builder()
-                .form("REFERENCE_001_BRANCH")
+        return Reference001PrintData.builder()
                 .dateFrom(LocalDate.of(2000, 1, 1))
                 .dateTo(LocalDate.now())
                 .lastName(client.getLastName())
@@ -89,14 +92,10 @@ public class CommonService {
                 .accountNumber(client.getAccount().getAccountNumber())
                 .accountCurrency(client.getAccount().getAccountCurrency().name())
                 .accountCurrencyFullName(client.getAccount().getAccountCurrency().getCurrencyFullName())
-                .referenceCode("001")
-                .channel(Channel.BRANCH)
                 .totalAmount(totalAmount)
                 .transactions(operations.stream()
                         .map(ModelMapper::convertToTransactionDTO)
                         .collect(Collectors.toList()))
                 .build();
-
-        return printData;
     }
 }

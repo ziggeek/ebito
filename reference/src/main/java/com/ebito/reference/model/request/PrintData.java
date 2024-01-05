@@ -12,4 +12,5 @@ public abstract class PrintData {
     private String form;
     private String templateName;
     private Channel channel;
+    private String referenceCode;
 }

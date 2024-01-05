@@ -40,7 +40,7 @@ public class FormGeneratorServiceImpl implements FormGeneratorService {
 
         final byte[] pdfBuffer = convertDocxToPdf(docxBytes);
         final String checkSum = new DigestUtils(HASH_ALGORITHM_NAME).digestAsHex(pdfBuffer);
-        Files.write(Paths.get("C:\\Users\\murad\\Downloads\\" + pdfFileName), pdfBuffer);
+        Files.write(Paths.get("C:\\Users\\skosa\\Downloads\\" + pdfFileName), pdfBuffer);
 
 /*
         //можно сохранить docx-файл

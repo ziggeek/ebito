@@ -22,8 +22,10 @@ public class Contract {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(name = "contract_number")
     private int contractNumber;
 
+    @Column(name = "contract_date")
     private LocalDate contractDate;
 
     @OneToOne

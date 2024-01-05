@@ -26,7 +26,6 @@ public class Reference001PrintData extends PrintData {
     private final long accountNumber;
     private final String accountCurrency;
     private final String accountCurrencyFullName;
-    private final String referenceCode;
     private final long totalAmount;
     private final List<TransactionDTO> transactions;
 }
