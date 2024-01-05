@@ -19,7 +19,7 @@ public class RestResponseEntityExceptionHandler {
     @ExceptionHandler(InvalidUrlException.class)
     public ResponseEntity<?> handleInvalidUrlException(InvalidUrlException e) {
         log.error("File url error: {}", e.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }  @ExceptionHandler(ResourceAccessException.class)
     public ResponseEntity<?> handleResourceAccessException(ResourceAccessException e) {
         log.error("File access error: {}", e.getMessage());

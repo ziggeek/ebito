@@ -1,6 +1,7 @@
 package com.ebito.cloud.service.Impl;
 
 import com.ebito.cloud.exception.FileProcessingException;
+import com.ebito.cloud.exception.InvalidUrlException;
 import com.ebito.cloud.exception.ResourceAccessException;
 import com.ebito.cloud.model.entity.DocumentEntity;
 import com.ebito.cloud.properties.MinioProperties;
@@ -16,6 +17,7 @@ import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
@@ -60,20 +62,24 @@ public class DocumentServiceImpl implements DocumentService {
         try {
             // Создать временный файл для хранения загруженного содержимого
             File tempFile = File.createTempFile("download", ".tmp");
-            Files.copy(loadDocument(name), tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            try (InputStream inputStream = loadDocument(name)) {
+                Files.copy(inputStream, tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            } catch (Exception e) {
+                throw new InvalidUrlException("Failed to copy document: " + e.getMessage());
+            }
+
             Resource resource = new FileSystemResource(tempFile);
             // Создать Resource на основе временного файла
             log.info("Document file {} downloaded successfully", name);
             if (!resource.exists() || !resource.isReadable()) {
-                throw new ResourceAccessException(name + " not found or not available ");
+                throw new ResourceAccessException(name + " not found or not available");
             }
             return resource;
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new FileProcessingException("Document download failed: " + e.getMessage());
         }
-
-
     }
+
 
     @SneakyThrows
     private void createBucket() {
