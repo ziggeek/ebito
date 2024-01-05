@@ -1,8 +1,8 @@
-package com.ebito.printed_form.api.controller.request;
+package com.ebito.printed_form.api.controller.request.reference;
 
+import com.ebito.printed_form.api.controller.request.FormGenerationRequest;
 import com.ebito.printed_form.model.Channel;
 import com.ebito.printed_form.model.Form;
-import com.ebito.printed_form.model.FormGenerationRequest;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
@@ -16,7 +16,6 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Set;
 
 import static com.ebito.printed_form.util.DataFormatUtils.*;
 

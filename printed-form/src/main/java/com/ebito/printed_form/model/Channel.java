@@ -13,17 +13,18 @@ public enum Channel {
     /**
      * Личный кабинет на сайте
      */
-    ONLINE("Личный кабинет"),
+    ONLINE("Личный кабинет", "Личном кабинете"),
 
     /**
      * Мобильное приложение
      */
-    MOBILE("Мобильное приложение"),
+    MOBILE("Мобильное приложение", "Мобильном приложении"),
 
     /**
      * Отделение
      */
-    BRANCH("Отделение");
+    BRANCH("Отделение","Отделении");
 
     private final String channelName;
+    private final String channelNameForForm;
 }

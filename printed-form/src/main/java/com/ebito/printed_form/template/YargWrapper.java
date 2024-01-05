@@ -1,6 +1,6 @@
 package com.ebito.printed_form.template;
 
-import com.ebito.printed_form.model.FormGenerationRequest;
+import com.ebito.printed_form.api.controller.request.FormGenerationRequest;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

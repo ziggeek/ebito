@@ -1,7 +1,7 @@
 package com.ebito.printed_form.service;
 
 
-import com.ebito.printed_form.model.FormGenerationRequest;
+import com.ebito.printed_form.api.controller.request.FormGenerationRequest;
 import com.ebito.printed_form.api.controller.response.FormGenerationResponse;
 import com.ebito.printed_form.exception.ConvertToPdfException;
 import com.ebito.printed_form.exception.GeneratePrintedFormException;

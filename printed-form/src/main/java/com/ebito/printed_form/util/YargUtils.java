@@ -1,6 +1,6 @@
 package com.ebito.printed_form.util;
 
-import com.ebito.printed_form.model.FormGenerationRequest;
+import com.ebito.printed_form.api.controller.request.FormGenerationRequest;
 import com.ebito.printed_form.template.YargWrapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.haulmont.yarg.formatters.factory.DefaultFormatterFactory;
@@ -17,11 +17,8 @@ import com.haulmont.yarg.structure.impl.ReportTemplateBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
-import org.springframework.util.CollectionUtils;
 
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import static com.ebito.printed_form.model.Form.*;
