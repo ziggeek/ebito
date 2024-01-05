@@ -3,7 +3,7 @@ package com.ebito.cloud.api.controller;
 import com.ebito.cloud.api.CloudApi;
 import com.ebito.cloud.model.response.PrintedGuids;
 import com.ebito.cloud.service.CloudService;
-import com.ebito.cloud.service.FileService;
+import com.ebito.cloud.service.DocumentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
@@ -19,11 +19,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CloudController implements CloudApi {
     private final CloudService cloudService;
-    private final FileService fileService;
+    private final DocumentService documentService;
 
     @Override
     public ResponseEntity<Resource> getReferenceByName(String name) {
-        Resource fileResource = fileService.getFileByName(name);
+       // Resource fileResource = fileService.getFileByName(name);
+        Resource fileResource = documentService.download(name);
         if (fileResource != null) {
             return ResponseEntity.ok()
                     .contentType(MediaType.APPLICATION_PDF)

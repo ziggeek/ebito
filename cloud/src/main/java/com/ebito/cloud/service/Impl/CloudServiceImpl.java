@@ -5,7 +5,7 @@ import com.ebito.cloud.model.entity.DocumentEntity;
 import com.ebito.cloud.model.response.PrintedGuids;
 import com.ebito.cloud.reposytory.DocumentRepository;
 import com.ebito.cloud.service.CloudService;
-import com.ebito.cloud.service.FileService;
+import com.ebito.cloud.service.DocumentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,13 +22,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CloudServiceImpl implements CloudService {
     private final DocumentRepository documentRepo;
-    private final FileService fileService;
-    private final DocumentMapper  documentMapper;
+    private final DocumentMapper documentMapper;
+    private final DocumentService documentService;
 
     @Override
     public PrintedGuids create(String clientId, MultipartFile file) {
         log.info("Creating document for client: {}", clientId);
-        DocumentEntity document = fileService.saveDoc(file, clientId);
+        DocumentEntity document = documentService.upload(file, clientId);
         documentRepo.save(document);
         return documentMapper.toDto(document);
     }

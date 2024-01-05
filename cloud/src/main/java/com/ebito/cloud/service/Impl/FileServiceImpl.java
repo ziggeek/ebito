@@ -45,7 +45,6 @@ public class FileServiceImpl implements FileService {
             return new DocumentEntity(clientId, file.getOriginalFilename(), fileName);
         } catch (IOException e) {
             throw new FileProcessingException("Error saving document file:" + file.getName());
-
         }
     }
 
