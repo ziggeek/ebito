@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.server.ResponseStatusException;
@@ -44,12 +45,14 @@ public class CommonService {
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Некорректный тип справки");
         }
-        PrintRequest printRequest = this.buildPrintRequest(clientId, request.getReferenceCode());
+        PrintRequest printRequest = this.buildPrintRequest(clientId, request.getReferenceCode(),
+                request.getDateFrom(), request.getDateTo());
         PrintedGuids printedGuids = ((Reference000Service) context.getBean(dogClass)).execute(printRequest);
         return printedGuids;
     }
 
-    private PrintRequest buildPrintRequest(final long clientId, final String referenceCode) {
+    private PrintRequest buildPrintRequest(final long clientId, final String referenceCode,
+                                           @Nullable final LocalDate dateFrom, @Nullable final LocalDate dateTo) {
         Assert.notNull(referenceCode, "'referenceCode' не должен быть null");
 
         Client client = clientRepository.findById(clientId).orElseThrow(
@@ -57,7 +60,11 @@ public class CommonService {
         );
 
         if (Objects.equals("001", referenceCode)) {
-            PrintData printData = extractDataForReference001(client);
+            if (dateFrom == null || dateTo == null) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "dateFrom and dateTo must not be null when referenceCode is 001");
+            }
+
+            PrintData printData = extractDataForReference001(client, dateFrom, dateTo);
 
             printData.setTemplateName(Dictionary.getReferenceName(referenceCode));
             printData.setForm("REFERENCE_001_BRANCH");
@@ -74,16 +81,17 @@ public class CommonService {
         }
     }
 
-    private Reference001PrintData extractDataForReference001(Client client) {
-        List<Operation> operations = operationRepository.findAllByClientIdOrderByTimestamp(client.getId());
+    private Reference001PrintData extractDataForReference001(Client client, LocalDate dateFrom, LocalDate dateTo) {
+        List<Operation> operations = operationRepository
+                .findAllByClientIdAndDateBetweenOrderByDateAscTimeAsc(client.getId(), dateFrom, dateTo);
 
         long totalAmount = operations.stream()
                 .mapToLong(Operation::getSum)
                 .sum();
 
         return Reference001PrintData.builder()
-                .dateFrom(LocalDate.of(2000, 1, 1))
-                .dateTo(LocalDate.now())
+                .dateFrom(dateFrom)
+                .dateTo(dateTo)
                 .lastName(client.getLastName())
                 .firstName(client.getFirstName())
                 .middleName(client.getPatronymic())

@@ -9,8 +9,8 @@ public class ModelMapper {
                 .id(operation.getId())
                 .sum(operation.getSum())
                 .paymentMethod(operation.getPaymentMethod().getPaymentMethodName())
-                .date(operation.getTimestamp().toLocalDate())
-                .time(operation.getTimestamp().toLocalTime())
+                .date(operation.getDate())
+                .time(operation.getTime())
                 .build();
     }
 }

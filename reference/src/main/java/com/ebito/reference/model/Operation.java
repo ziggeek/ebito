@@ -25,8 +25,11 @@ public class Operation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "timestamp")
-    private LocalDateTime timestamp;
+    @Column(name = "date")
+    private LocalDate date;
+
+    @Column(name = "time")
+    private LocalTime time;
 
     @Column(name = "payment_method")
     @Enumerated(EnumType.STRING)
