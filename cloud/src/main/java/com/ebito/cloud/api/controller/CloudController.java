@@ -23,36 +23,23 @@ public class CloudController implements CloudApi {
 
     @Override
     public ResponseEntity<Resource> getReferenceByName(String name) {
-       // Resource fileResource = fileService.getFileByName(name);
         Resource fileResource = documentService.download(name);
-        if (fileResource != null) {
             return ResponseEntity.ok()
                     .contentType(MediaType.APPLICATION_PDF)
                     .body(fileResource);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+
     }
 
     @Override
     public ResponseEntity<PrintedGuids> saveClientReference(String clientId, MultipartFile file) {
-
         PrintedGuids printedGuids = cloudService.create(clientId, file);
-        if (printedGuids != null) {
             return ResponseEntity.ok(printedGuids);
-        } else {
-            return ResponseEntity.badRequest().build();
-        }
+
     }
 
     @Override
     public ResponseEntity<List<PrintedGuids>> getClientReferences(final String clientId) {
-
         List<PrintedGuids> clientReferences = cloudService.getDocumentReferences(clientId);
-        if (clientReferences != null) {
             return ResponseEntity.ok(clientReferences);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
     }
 }
