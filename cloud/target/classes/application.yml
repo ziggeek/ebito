@@ -1,14 +1,5 @@
 server:
-  port: 9999
-
-app:
-  feign:
-    client:
-      config:
-        cloud:
-          url: "http://localhost:9998"
-        reference:
-          url: "http://localhost:9998"
+  port: 9998
 
 spring:
   datasource:
