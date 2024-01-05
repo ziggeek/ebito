@@ -71,6 +71,6 @@ public interface OrchestratorApi {
             })
     ResponseEntity<PrintedGuids> generateReference(
             @PathVariable("clientId") @Parameter(description = "Идентификатор  клиента") String clientId,
-            @RequestBody(description = "Тип справки") ReferenceGenerationRequest request
+            @RequestBody(description = "Тип справки и время от и до") ReferenceGenerationRequest request
     );
 }

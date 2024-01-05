@@ -5,6 +5,7 @@ import com.ebito.orchestrator.client.reference.ReferenceClient;
 import com.ebito.orchestrator.model.request.ReferenceGenerationRequest;
 import com.ebito.orchestrator.model.response.PrintedGuids;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
@@ -73,9 +75,15 @@ class OrchestratorApiTest {
                 .pdfFileName("001_created_01_01_1970_08_40_12.pdf")
                 .link("/api/v1/forms/001_created_01_01_1970_08_40_12.pdf")
                 .build();
-        var referenceGenerationRequest = ReferenceGenerationRequest.builder().referenceCode("001").build();
+        var referenceGenerationRequest = ReferenceGenerationRequest.builder()
+                .referenceCode("001")
+                .dateFrom(LocalDate.parse("2021-03-15"))
+                .dateTo(LocalDate.parse("2023-03-15"))
+                .build();
 
         ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+
         String requestBody = objectMapper.writeValueAsString(referenceGenerationRequest);
 
         ResponseEntity<PrintedGuids> responseEntity = new ResponseEntity<>(printedGuids, HttpStatus.OK);
