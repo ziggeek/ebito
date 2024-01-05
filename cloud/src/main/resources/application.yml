@@ -2,12 +2,13 @@ server:
   port: 9998
 
 spring:
+  config:
+    import: optional:file:.env[.properties]
   servlet:
     multipart:
       enabled: true
       max-file-size: 200MB
       max-request-size: 215MB
-
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/postgres
@@ -29,7 +30,11 @@ spring:
         enable_lazy_load_no_trans: true
   liquibase:
     change-log: db/changelog/changelog-master.yaml
-
+  minio:
+    bucket: minioadmin
+    url: http://localhost:9000
+    accessKey: minioadmin
+    secretKey: minioadmin
 file:
   storage:
     location: cloud.src.main.resources.documents
