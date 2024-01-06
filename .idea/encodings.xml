@@ -3,6 +3,7 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/cloud/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cloud/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/common-lib/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/orchestrator/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/orchestrator/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/printed-form/src/main/java" charset="UTF-8" />

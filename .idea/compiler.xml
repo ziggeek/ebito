@@ -24,11 +24,21 @@
         <module name="ui" />
         <module name="printed-form" />
       </profile>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="common-lib" />
+      </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="ebito" target="11" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="cloud" options="-parameters" />
+      <module name="common-lib" options="-parameters" />
       <module name="orchestrator" options="-parameters" />
       <module name="printed-form" options="-parameters" />
       <module name="reference" options="-parameters" />
