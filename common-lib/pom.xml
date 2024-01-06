@@ -72,7 +72,7 @@
                 <outputDirectory>${project.build.directory}/mvn-repo</outputDirectory>
                 <branch>refs/heads/mvn-repo</branch>
                 <includes><include>**/*</include></includes>
-                <repositoryName>com.ebito.common-lib</repositoryName>
+                <repositoryName>ebito</repositoryName>
                 <repositoryOwner>ziggeek</repositoryOwner>
             </configuration>
             <executions>
