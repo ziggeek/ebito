@@ -19,11 +19,10 @@
 
     <modules>
         <module>orchestrator</module>
-        <module>reference</module>
+        <module>data-aggregator</module>
         <module>printed-form</module>
         <module>cloud</module>
         <module>ui</module>
-        <module>common-lib</module>
     </modules>
 
     <properties>

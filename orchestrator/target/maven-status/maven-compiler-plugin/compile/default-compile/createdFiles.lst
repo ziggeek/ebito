@@ -1,0 +1,9 @@
+com\ebito\orchestrator\model\request\ReferenceGenerationRequest$ReferenceGenerationRequestBuilder.class
+com\ebito\orchestrator\model\response\PrintedGuids.class
+com\ebito\orchestrator\client\cloud\CloudClient.class
+com\ebito\orchestrator\api\OrchestratorApi.class
+com\ebito\orchestrator\OrchestratorApplication.class
+com\ebito\orchestrator\model\request\ReferenceGenerationRequest.class
+com\ebito\orchestrator\model\response\PrintedGuids$PrintedGuidsBuilder.class
+com\ebito\orchestrator\api\controller\OrchestratorController.class
+com\ebito\orchestrator\client\reference\ReferenceClient.class
