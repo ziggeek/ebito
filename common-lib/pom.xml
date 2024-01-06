@@ -5,11 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.ebito</groupId>
-        <artifactId>ebito-application</artifactId>
+        <artifactId>ebito</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.ebito</groupId>
     <artifactId>common-lib</artifactId>
     <version>1.0-SNAPSHOT</version>
 
@@ -25,7 +24,7 @@
         <lombok.version>1.18.26</lombok.version>
 
         <github.global.server>github</github.global.server>
-        <github.maven-plugin>0.9</github.maven-plugin>
+        <github.maven-plugin>0.12</github.maven-plugin>
     </properties>
 
     <distributionManagement>
@@ -66,7 +65,7 @@
         <plugin>
             <groupId>com.github.github</groupId>
             <artifactId>site-maven-plugin</artifactId>
-            <version>0.9</version>
+            <version>${github.maven-plugin}</version>
             <configuration>
                 <message>Maven artifacts for ${project.version}</message>
                 <noJekyll>true</noJekyll>
