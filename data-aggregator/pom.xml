@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.ebito</groupId>
         <artifactId>ebito</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
 
     <artifactId>data-aggregator</artifactId>
@@ -15,7 +15,7 @@
 
     <properties>
         <java.version>11</java.version>
-        <main.class>com.ebito.data-aggregator.ReferenceApplication</main.class>
+        <main.class>com.ebito.data_aggregator.DataAggregatorApplication</main.class>
 
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
