@@ -23,7 +23,6 @@
         <module>printed-form</module>
         <module>cloud</module>
         <module>ui</module>
-        <module>common-lib</module>
     </modules>
 
     <properties>
