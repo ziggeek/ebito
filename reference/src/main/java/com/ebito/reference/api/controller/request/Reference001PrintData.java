@@ -1,7 +1,6 @@
-package com.ebito.reference.model.request;
+package com.ebito.reference.api.controller.request;
 
 import com.ebito.reference.model.dto.TransactionDTO;
-import com.ebito.reference.model.enumeration.Channel;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 

@@ -1,8 +1,8 @@
 package com.ebito.reference.api.controller;
 
 import com.ebito.reference.api.ReferenceApi;
-import com.ebito.reference.model.request.ReferenceGenerationRequest;
-import com.ebito.reference.model.response.PrintedGuids;
+import com.ebito.reference.api.controller.request.PrintFormGenerationRequest;
+import com.ebito.reference.api.controller.response.PrintedGuids;
 import com.ebito.reference.service.common.CommonService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,8 +17,8 @@ public class ReferenceController implements ReferenceApi {
     private final CommonService commonService;
 
     @Override
-    public ResponseEntity<PrintedGuids> generateReference(final long clientId, final ReferenceGenerationRequest request) {
-        final var response = commonService.selectReference(clientId, request);
+    public ResponseEntity<PrintedGuids> generatePrintForm(final long clientId, final PrintFormGenerationRequest request) {
+        final var response = commonService.selectPrintForm(clientId, request);
         return ResponseEntity.ok(response);
     }
 }

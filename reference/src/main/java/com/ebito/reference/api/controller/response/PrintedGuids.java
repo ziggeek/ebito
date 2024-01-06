@@ -1,4 +1,4 @@
-package com.ebito.reference.model.response;
+package com.ebito.reference.api.controller.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;

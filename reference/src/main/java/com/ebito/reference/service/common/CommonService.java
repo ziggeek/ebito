@@ -5,10 +5,10 @@ import com.ebito.reference.model.Operation;
 import com.ebito.reference.model.enumeration.Channel;
 import com.ebito.reference.model.enumeration.DocumentType;
 import com.ebito.reference.model.PrintRequest;
-import com.ebito.reference.model.request.PrintData;
-import com.ebito.reference.model.request.Reference001PrintData;
-import com.ebito.reference.model.request.ReferenceGenerationRequest;
-import com.ebito.reference.model.response.PrintedGuids;
+import com.ebito.reference.api.controller.request.PrintData;
+import com.ebito.reference.api.controller.request.Reference001PrintData;
+import com.ebito.reference.api.controller.request.PrintFormGenerationRequest;
+import com.ebito.reference.api.controller.response.PrintedGuids;
 import com.ebito.reference.repository.ClientRepository;
 import com.ebito.reference.repository.OperationRepository;
 import com.ebito.reference.service.Reference000Service;
@@ -37,7 +37,7 @@ public class CommonService {
     private final OperationRepository operationRepository;
     private static final String PATH = "com.ebito.reference.service.reference%s.Reference%sService";
 
-    public PrintedGuids selectReference(final long clientId, final ReferenceGenerationRequest request) {
+    public PrintedGuids selectPrintForm(final long clientId, final PrintFormGenerationRequest request) {
         Class<?> dogClass;
         try {
             dogClass = Class.forName(String.format(PATH, request.getReferenceCode(), request.getReferenceCode()));

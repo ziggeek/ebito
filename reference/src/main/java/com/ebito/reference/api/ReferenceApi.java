@@ -1,7 +1,7 @@
 package com.ebito.reference.api;
 
-import com.ebito.reference.model.request.ReferenceGenerationRequest;
-import com.ebito.reference.model.response.PrintedGuids;
+import com.ebito.reference.api.controller.request.PrintFormGenerationRequest;
+import com.ebito.reference.api.controller.response.PrintedGuids;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -42,7 +42,7 @@ public interface ReferenceApi {
                             mediaType = "application/json")
             )
     })
-    @PostMapping("/clients/{clientId}/generate-reference")
-    ResponseEntity<PrintedGuids> generateReference(@PathVariable("clientId") long clientId,
-                                                   @RequestBody ReferenceGenerationRequest request);
+    @PostMapping("/clients/{clientId}/generate-print-form")
+    ResponseEntity<PrintedGuids> generatePrintForm(@PathVariable("clientId") long clientId,
+                                                   @RequestBody PrintFormGenerationRequest request);
 }

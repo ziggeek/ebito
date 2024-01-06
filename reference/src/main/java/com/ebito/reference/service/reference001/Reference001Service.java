@@ -1,7 +1,7 @@
 package com.ebito.reference.service.reference001;
 
 import com.ebito.reference.client.PrinterService;
-import com.ebito.reference.model.response.PrintedGuids;
+import com.ebito.reference.api.controller.response.PrintedGuids;
 import com.ebito.reference.service.Reference000Service;
 import com.ebito.reference.model.PrintRequest;
 import lombok.RequiredArgsConstructor;
