@@ -13,6 +13,16 @@
     <name>reference</name>
     <url>http://maven.apache.org</url>
 
+    <repositories>
+        <repository>
+            <id>ebito-mvn-repo</id>
+            <url>https://raw.github.com/ziggeek/ebito/mvn-repo/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
 
     <properties>
         <java.version>11</java.version>
@@ -38,6 +48,12 @@
 
 
     <dependencies>
+        <dependency>
+            <groupId>com.ebito</groupId>
+            <artifactId>common-lib</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
