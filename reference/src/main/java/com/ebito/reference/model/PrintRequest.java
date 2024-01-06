@@ -1,6 +1,6 @@
 package com.ebito.reference.model;
 
-import com.ebito.reference.model.request.PrintData;
+import com.ebito.reference.api.controller.request.PrintData;
 import com.ebito.reference.model.enumeration.DocumentType;
 import lombok.*;
 

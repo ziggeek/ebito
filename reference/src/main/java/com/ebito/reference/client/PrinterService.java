@@ -1,7 +1,7 @@
 package com.ebito.reference.client;
 
 import com.ebito.reference.model.PrintRequest;
-import com.ebito.reference.model.response.PrintedGuids;
+import com.ebito.reference.api.controller.response.PrintedGuids;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +32,7 @@ public class PrinterService {
         PrintedGuids printedGuids;
         switch (body.getDocumentType()) {
             case PDF:
-                printedGuids = printerClient.generatePdf(body.getPrintData()).getBody();
+                printedGuids = printerClient.generatePrintForm(body.getPrintData()).getBody();
                 break;
             default:
                 throw new IllegalStateException("*** Формат документа не найден " + body.getDocumentType());
