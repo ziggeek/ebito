@@ -17,16 +17,14 @@ public class DocumentEntity {
     private Long id;
     @Column(name = "client_id")
     private String clientId;
-    @Column(name = "type_file")
-    private String fileType;
+
     @Column(name = "name_file")
     private String fileName;
 
     //Конструктор для создания объекта класса Document без id.
 
-    public DocumentEntity(String clientId, String type, String pdfFileName) {
+    public DocumentEntity(String clientId, String pdfFileName) {
         this.clientId = clientId;
-        this.fileType = type;
         this.fileName = pdfFileName;
     }
 
