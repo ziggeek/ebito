@@ -1,24 +1,23 @@
 package com.ebito.cloud.mapper;
 
 import com.ebito.cloud.model.entity.DocumentEntity;
-import com.ebito.cloud.model.response.PrintedGuids;
+import com.ebito.cloud.model.response.DocumentResponse;
+import com.ebito.cloud.service.DocumentService;
 import org.mapstruct.*;
 
 
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = "spring")
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE,componentModel = "spring")
 public interface DocumentMapper {
 
-    String  link = "/api/v1/forms/";
+
     @Mapping(target = "link", source = "fileName", qualifiedByName = "documentMapper")
-    @Mapping(target = "name", source ="fileType")
-    @Mapping(target = "pdfFileName", source = "fileName")
-    PrintedGuids toDto(DocumentEntity document);
+    DocumentResponse toDto(DocumentEntity document,@Context DocumentService documentService);
 
 
     @Named("documentMapper")
-    default String documentMapper(String fileName) {
-        return link + fileName;
+    default String documentMapper(String fileName,@Context DocumentService documentService) {
+        return documentService.downloadUrl(fileName);
     }
 
 }

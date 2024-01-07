@@ -7,6 +7,7 @@ import com.ebito.cloud.model.entity.DocumentEntity;
 import com.ebito.cloud.properties.MinioProperties;
 import com.ebito.cloud.service.DocumentService;
 import io.minio.*;
+import io.minio.http.Method;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -21,10 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +30,8 @@ import java.util.UUID;
 public class DocumentServiceImpl implements DocumentService {
     private final MinioClient minioClient;
     private final MinioProperties minioProperties;
+  //  @Value("${tinyurl}")
+    // private final String token;
 
     @Override
     public DocumentEntity upload(final MultipartFile file, final String clientId) {
@@ -44,7 +44,6 @@ public class DocumentServiceImpl implements DocumentService {
         }
         Assert.notNull(file, "Document must not be null");
 
-        String fileName = generateFileName(file);
         InputStream inputStream;
         try {
             inputStream = file.getInputStream();
@@ -52,9 +51,9 @@ public class DocumentServiceImpl implements DocumentService {
             throw new FileProcessingException("Document upload failed: "
                     + e.getMessage());
         }
-        saveDocument(inputStream, fileName);
-        log.info("Document file {} uploaded successfully", fileName);
-        return new DocumentEntity(clientId, file.getOriginalFilename(), fileName);
+        saveDocument(inputStream, file.getOriginalFilename());
+        log.info("Document file {} uploaded successfully", file.getOriginalFilename());
+        return new DocumentEntity(clientId, file.getOriginalFilename());
     }
 
     @Override
@@ -67,7 +66,6 @@ public class DocumentServiceImpl implements DocumentService {
             } catch (Exception e) {
                 throw new InvalidUrlException("Failed to copy document: " + e.getMessage());
             }
-
             Resource resource = new FileSystemResource(tempFile);
             // Создать Resource на основе временного файла
             log.info("Document file {} downloaded successfully", name);
@@ -78,6 +76,20 @@ public class DocumentServiceImpl implements DocumentService {
         } catch (IOException e) {
             throw new FileProcessingException("Document download failed: " + e.getMessage());
         }
+    }
+
+    @Override
+    public String downloadUrl(final String name) {
+        String url = loadUrlDocument(name);
+        Assert.notNull(url, "Document url must not be null");
+        try {
+        log.info("Document file {} downloaded successfully", name);
+
+           return url;
+        } catch (Exception e) {
+            throw new InvalidUrlException(e.getMessage());
+        }
+
     }
 
 
@@ -93,25 +105,6 @@ public class DocumentServiceImpl implements DocumentService {
         }
     }
 
-    private String generateFileName(final MultipartFile file) {
-        //Дата и время форматируются для имени файла документа.
-        String formattedDate = LocalDateTime.now().
-                format(DateTimeFormatter.ofPattern("yyyy_MM_dd_HH_mm_ss"));
-
-        //Работа с именем файла документа. достаёться из multipart
-        String originalFilename = Objects.requireNonNull(file.getOriginalFilename()).replace(" ", "_");
-        //Удаление расширения файла документа из multipart.превращает имя.pdf в имя
-        int dotIndex = originalFilename.indexOf(".");
-        String name = originalFilename.substring(0, dotIndex);
-        // Добавление рандомных символов и цифр для имени файла документа.
-        String random = UUID.randomUUID().toString().replace('-', '_');
-        // Получение расширения файла документа из multipart.
-        String contentType = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
-        //  String contentType = Objects.requireNonNull(file.getContentType()).replace("application/", ".");
-        log.info("Name create {}", name + "_" + formattedDate + "_" + random + contentType);
-        return name + "_" + formattedDate + "_" + random + "." + contentType;
-    }
-
     @SneakyThrows
     private void saveDocument(final InputStream inputStream,
                               final String fileName) {
@@ -124,12 +117,22 @@ public class DocumentServiceImpl implements DocumentService {
 
     @SneakyThrows
     private InputStream loadDocument(final String fileName) {
-        return minioClient.getObject(GetObjectArgs
-                .builder()
-                .bucket(minioProperties.getBucket())
-                .object(fileName)
-                .build());
+        return minioClient.getObject(
+                GetObjectArgs.builder()
+                        .bucket(minioProperties.getBucket())
+                        .object(fileName)
+                        .build());
+    }
 
+    @SneakyThrows
+    private String loadUrlDocument(final String name) {
+        return minioClient.getPresignedObjectUrl(
+                GetPresignedObjectUrlArgs.builder()
+                        .method(Method.GET)
+                        .bucket(minioProperties.getBucket())
+                        .object(name)
+                        .expiry(2, TimeUnit.HOURS)
+                        .build());
     }
 
 }
