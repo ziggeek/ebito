@@ -30,8 +30,6 @@ import java.util.concurrent.TimeUnit;
 public class DocumentServiceImpl implements DocumentService {
     private final MinioClient minioClient;
     private final MinioProperties minioProperties;
-  //  @Value("${tinyurl}")
-    // private final String token;
 
     @Override
     public DocumentEntity upload(final MultipartFile file, final String clientId) {
