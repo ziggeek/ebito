@@ -30,15 +30,11 @@ spring:
         enable_lazy_load_no_trans: true
   liquibase:
     change-log: db/changelog/changelog-master.yaml
-  minio:
-    bucket: minioadmin
-    url: http://localhost:9000
-    accessKey: minioadmin
-    secretKey: minioadmin
-file:
-  storage:
-    location: cloud.src.main.resources.documents
-
+minio:
+ bucket: ${MINIO_BUCKET}
+ url: ${MINIO_URL}
+ accessKey: ${MINIO_ASSES_KEY}
+ secretKey: ${MINIO_SECRET_KEY}
 
 logging:
   level:
