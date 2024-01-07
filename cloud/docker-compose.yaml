@@ -5,10 +5,6 @@ networks:
     driver: bridge
 
 volumes:
-  cache:
-    driver: local
-  db-data:
-    driver: local
   minio-data:
     driver: local
 
