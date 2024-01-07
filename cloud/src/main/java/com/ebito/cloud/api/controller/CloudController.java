@@ -1,7 +1,7 @@
 package com.ebito.cloud.api.controller;
 
 import com.ebito.cloud.api.CloudApi;
-import com.ebito.cloud.model.response.PrintedGuids;
+import com.ebito.cloud.model.response.DocumentResponse;
 import com.ebito.cloud.service.CloudService;
 import com.ebito.cloud.service.DocumentService;
 import lombok.RequiredArgsConstructor;
@@ -30,15 +30,24 @@ public class CloudController implements CloudApi {
     }
 
     @Override
-    public ResponseEntity<PrintedGuids> saveClientReference(String clientId, MultipartFile file) {
-        PrintedGuids printedGuids = cloudService.create(clientId, file);
+    public ResponseEntity<DocumentResponse> saveClientReference(String clientId, MultipartFile file) {
+        DocumentResponse printedGuids = cloudService.create(clientId, file);
             return ResponseEntity.ok(printedGuids);
 
     }
 
     @Override
-    public ResponseEntity<List<PrintedGuids>> getClientReferences(final String clientId) {
-        List<PrintedGuids> clientReferences = cloudService.getDocumentReferences(clientId);
+    public ResponseEntity<List<DocumentResponse>> getClientReferences(final String clientId) {
+        List<DocumentResponse> clientReferences = cloudService.getDocumentReferences(clientId);
             return ResponseEntity.ok(clientReferences);
     }
+
+    @Override
+    public ResponseEntity<String> getURLByName(String name) {
+        String url = documentService.downloadUrl(name);
+
+            return ResponseEntity.ok(url);
+
+    }
+
 }
