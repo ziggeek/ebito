@@ -9,12 +9,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @Tag(name = "Cloud", description = "Cloud API сервис для загрузки и получения документов. ")
 @ApiResponses(value = {
@@ -42,11 +41,11 @@ public interface CloudApi {
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             value = "/{clientId}/save-client-reference")
     ResponseEntity<DocumentResponse> saveClientReference(@PathVariable("clientId")
-                                                     @Parameter(description = "id клиента", required = true)
-                                                     String clientId,
+                                                         @Parameter(description = "id клиента", required = true)
+                                                         String clientId,
                                                          @RequestPart(name = "file")
-                                                     @Parameter(description = "Файл для загрузки", required = true)
-                                                     MultipartFile file);
+                                                         @Parameter(description = "Файл для загрузки", required = true)
+                                                         MultipartFile file);
 
     @Operation(summary = "Получить список ответов сгенерированной справки",
             responses = {
@@ -54,9 +53,12 @@ public interface CloudApi {
                             content = {@Content(schema = @Schema(implementation = DocumentResponse.class))})
             })
     @GetMapping("/{clientId}/get-client-references")
-    ResponseEntity<List<DocumentResponse>> getClientReferences(@PathVariable("clientId")
-                                                           @Parameter(description = "id клиента", required = true)
-                                                           String clientId);
+    ResponseEntity<Page<DocumentResponse>> getClientReferences(@PathVariable("clientId")
+                                                               @Parameter(description = "id клиента", required = true)
+                                                               String clientId,
+                                                               @RequestParam(defaultValue = "0") int page,
+                                                               @RequestParam(defaultValue = "10") int size);
+
     @Operation(summary = "Получить ссылку на документ",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Всё хорошо."),
@@ -64,8 +66,8 @@ public interface CloudApi {
             })
     @GetMapping(value = "/get-URL/{name}")
     ResponseEntity<String> getURLByName(@PathVariable("name")
-                                                @Parameter(description = "Имя документа", required = true)
-                                                String name);
+                                        @Parameter(description = "Имя документа", required = true)
+                                        String name);
 
 
 }

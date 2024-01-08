@@ -8,13 +8,12 @@ import com.ebito.cloud.service.CloudService;
 import com.ebito.cloud.service.DocumentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @Slf4j
@@ -30,17 +29,15 @@ public class CloudServiceImpl implements CloudService {
         log.info("Creating document for client: {}", clientId);
         DocumentEntity document = documentService.upload(file, clientId);
         documentRepo.save(document);
-        return documentMapper.toDto(document,documentService);
+        return documentMapper.toDto(document, documentService);
     }
 
 
     @Override
-    public List<DocumentResponse> getDocumentReferences(String clientId) {
+    public Page<DocumentResponse> getDocumentReferences(String clientId, Pageable page) {
         log.info("Getting document references for client: {}", clientId);
         Assert.hasText(clientId, "Client ID cannot be empty");
-        List<DocumentEntity> documents = documentRepo.findAllByClientId(clientId);
-        List<DocumentResponse> printedGuids = new ArrayList<>();
-        documents.forEach(document -> printedGuids.add(documentMapper.toDto(document,documentService)));
-        return printedGuids;
+        Page<DocumentEntity> documents = documentRepo.findAllByClientId(clientId, page);
+        return documents.map(document -> documentMapper.toDto(document, documentService));
     }
 }
