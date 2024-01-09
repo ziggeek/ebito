@@ -81,9 +81,9 @@ public class DocumentServiceImpl implements DocumentService {
         String url = loadUrlDocument(name);
         Assert.notNull(url, "Document url must not be null");
         try {
-        log.info("Document file {} downloaded successfully", name);
+            log.info("Document file {} downloaded successfully", name);
 
-           return url;
+            return url;
         } catch (Exception e) {
             throw new InvalidUrlException(e.getMessage());
         }

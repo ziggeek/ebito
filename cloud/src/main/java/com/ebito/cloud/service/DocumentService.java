@@ -13,6 +13,7 @@ public interface DocumentService {
      */
 
     DocumentEntity upload(MultipartFile doc, String clientId);
+
     /**
      * Загружает документ из файловой системы по названию
      *

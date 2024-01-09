@@ -9,8 +9,8 @@ import org.springframework.data.repository.query.Param;
 
 
 public interface DocumentRepository extends JpaRepository<DocumentEntity, Long> {
-    @Query("select d from DocumentEntity d where d.clientId = :client_id" +
+    @Query("select d from DocumentEntity d where d.clientId = :clientId" +
             " ORDER BY d.id DESC ")
-    Page<DocumentEntity> findAllByClientId(@Param("client_id") String clientId, Pageable pageable);
+    Page<DocumentEntity> findAllByClientId(@Param("clientId") String clientId, Pageable pageable);
 
 }
